@@ -19,6 +19,7 @@ class GUI_menu_class {
 		this.menuBarNode = null;
 		this.lastFocusedMenuBarLink = 0;
 		this.dropdownStack = [];
+		this.definition = menuDefinition;
 
 		this.Tools_translate = new Tools_translate_class();
 	}
@@ -27,8 +28,8 @@ class GUI_menu_class {
 		this.menuContainer = document.getElementById('main_menu');
 
 		let menuTemplate = '<ul class="menu_bar" role="menubar" tabindex="0">';
-		for (let i = 0; i < menuDefinition.length; i++) {
-			const item = menuDefinition[i];
+		for (let i = 0; i < this.definition.length; i++) {
+			const item = this.definition[i];
 			menuTemplate += this.generate_menu_bar_item_template(item, i);
 		}
 		menuTemplate += '</ul>';
@@ -285,7 +286,7 @@ class GUI_menu_class {
 		const index = parseInt(link.getAttribute('data-index'), 10) || 0;
 
 		// Find link definition
-		let children = menuDefinition;
+		let children = this.definition;
 		for (let i = 0; i < level; i++) {
 			const childIndex = this.dropdownStack[i] != null ? this.dropdownStack[i].index : index;
 			children = children[childIndex].children;
@@ -318,7 +319,7 @@ class GUI_menu_class {
 		this.close_child_dropdowns(level);
 
 		// Find child list in the menu definition
-		let children = menuDefinition;
+		let children = this.definition;
 		for (let i = 0; i <= level; i++) {
 			const childIndex = this.dropdownStack[i] != null ? this.dropdownStack[i].index : index;
 			children = children[childIndex].children;
